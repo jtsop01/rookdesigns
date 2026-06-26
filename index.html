@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Disable Cloudflare email obfuscation -->
+<meta http-equiv="x-cloudflare-email-obfuscation" content="off">
+<title>Rook Designs — John Tsopanarias, Jr.</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: #0e0e0e; color: #f0ece3; line-height: 1.6; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --accent: #e8803a;
+  --accent-light: #f59550;
+  --bg: #0e0e0e;
+  --bg-2: #161616;
+  --bg-3: #1e1e1e;
+  --text: #f0ece3;
+  --text-muted: rgba(240,236,227,0.5);
+  --text-dim: rgba(240,236,227,0.2);
+  --border: rgba(240,236,227,0.1);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --max: 1200px;
+  --pad: clamp(24px, 5vw, 64px);
+}
+
+/* ===== UTILITY ===== */
+.container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* ===== PAGE SWITCHER (single-file nav) ===== */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px var(--pad);
+  background: rgba(14,14,14,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.nav-rook { width: 26px; height: 35px; flex-shrink: 0; }
+.nav-wordmark { font-family: var(--serif); font-size: 18px; font-weight: 700; letter-spacing: 0.02em; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a {
+  font-size: 12px; font-weight: 400; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted);
+  transition: color 0.2s; cursor: pointer;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #0e0e0e;
+  background: var(--accent); border: none;
+  padding: 10px 22px; border-radius: 2px; cursor: pointer;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--accent-light); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; display: block; }
+.mobile-menu {
+  display: none; position: fixed; top: 72px; left: 0; right: 0;
+  background: #0e0e0e; border-bottom: 0.5px solid var(--border);
+  padding: 24px var(--pad); z-index: 99; flex-direction: column; gap: 20px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 16px; font-weight: 400; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+  cursor: pointer; padding: 8px 0; border-bottom: 0.5px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; overflow: hidden;
+  padding: clamp(60px, 10vh, 120px) var(--pad) clamp(60px, 8vh, 96px);
+  min-height: clamp(480px, 70vh, 720px);
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-rook {
+  position: absolute;
+  right: clamp(-60px, -5vw, -20px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(320px, 55vw, 680px);
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  opacity: 1;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(48px, 9vw, 104px);
+  font-weight: 900; line-height: 0.9;
+  color: var(--text); margin-bottom: 28px;
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+.hero-headline em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  font-size: clamp(14px, 1.6vw, 17px); font-weight: 300;
+  color: var(--text-muted); max-width: 440px;
+  line-height: 1.8; margin-bottom: 44px;
+  animation: fadeUp 0.7s ease 0.2s both;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  animation: fadeUp 0.7s ease 0.3s both;
+}
+.btn-primary {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #0e0e0e;
+  background: var(--accent); border: none;
+  padding: 14px 32px; border-radius: 2px; cursor: pointer;
+  transition: background 0.2s; display: inline-block;
+}
+.btn-primary:hover { background: var(--accent-light); }
+.btn-ghost {
+  font-size: 13px; font-weight: 300; color: var(--text-muted);
+  letter-spacing: 0.02em; cursor: pointer; transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--text); }
+
+/* ===== STATS ===== */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+}
+.stat {
+  padding: clamp(20px, 3vw, 32px) var(--pad);
+  border-right: 0.5px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--serif); font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700; color: var(--accent); line-height: 1;
+}
+.stat-label {
+  font-size: 11px; font-weight: 300; color: var(--text-muted);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px;
+}
+
+/* ===== WORK SECTION ===== */
+.work { padding: clamp(48px, 7vw, 88px) 0; }
+.section-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 32px; padding: 0 var(--pad);
+}
+.section-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(240,236,227,0.35);
+}
+.section-link {
+  font-size: 12px; color: var(--accent);
+  letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+  transition: color 0.2s;
+}
+.section-link:hover { color: var(--accent-light); }
+
+/* ===== WORK GRID ===== */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 3px;
+  padding: 0 var(--pad);
+}
+.work-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  background: var(--bg-3);
+  min-height: 260px;
+}
+.work-card:first-child { grid-column: span 2; min-height: 340px; }
+.work-card-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.6s ease;
+}
+.work-card:hover .work-card-img { transform: scale(1.04); }
+.work-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(14,14,14,0.92) 0%, rgba(14,14,14,0.3) 60%, transparent 100%);
+}
+.work-card-body {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 24px 28px;
+}
+.work-card-cat {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+}
+.work-card-title {
+  font-family: var(--serif); font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 700; color: var(--text); line-height: 1.15;
+}
+.work-card-sub {
+  font-size: 12px; font-weight: 300; color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* Image placeholders - replace with real background-image urls */
+.img-island { background: linear-gradient(135deg, #0d2240 0%, #0a3060 40%, #071e40 100%); }
+.img-mlb { background: linear-gradient(135deg, #1a0505 0%, #3a0a0a 40%, #1f0808 100%); }
+.img-kitchen { background: linear-gradient(135deg, #1a1010 0%, #2d1a10 40%, #1a0e08 100%); }
+.img-widex { background: linear-gradient(135deg, #0a1520 0%, #162035 40%, #0d1a2a 100%); }
+.img-logos { background: linear-gradient(135deg, #141020 0%, #1e1530 40%, #100d1a 100%); }
+
+/* MLB SVG detail */
+.work-card-emblem {
+  position: absolute; top: 20px; right: 20px;
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 0.5px solid rgba(232,128,58,0.35);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.8;
+}
+
+/* ===== CLIENTS ===== */
+.clients { padding: clamp(32px, 4vw, 56px) var(--pad); }
+.clients-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 28px;
+}
+.clients-list {
+  display: flex; flex-wrap: wrap; gap: 0;
+}
+.client-name {
+  font-family: var(--serif); font-size: clamp(13px, 1.8vw, 16px);
+  font-weight: 700; color: rgba(240,236,227,0.16);
+  padding: 10px 0; margin-right: 28px; padding-right: 28px;
+  border-right: 0.5px solid var(--border);
+  transition: color 0.25s; cursor: default;
+  white-space: nowrap; margin-bottom: 8px;
+}
+.client-name:last-child { border-right: none; }
+.client-name:hover { color: rgba(240,236,227,0.5); }
+
+/* ===== ABOUT STRIP ===== */
+.about-strip {
+  margin: 0 var(--pad) clamp(48px, 6vw, 80px);
+  padding: clamp(32px, 4vw, 52px);
+  border: 0.5px solid var(--border);
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 48px; align-items: center;
+}
+.about-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.about-name {
+  font-family: var(--serif); font-size: clamp(26px, 4vw, 38px);
+  font-weight: 900; color: var(--text); line-height: 1.1; margin-bottom: 14px;
+}
+.about-body {
+  font-size: 14px; font-weight: 300; color: var(--text-muted); line-height: 1.85;
+  max-width: 580px;
+}
+.skill-tags { display: flex; flex-direction: column; gap: 10px; min-width: 190px; }
+.skill-tag {
+  font-size: 12px; font-weight: 400; color: var(--text-muted);
+  padding: 9px 16px; border: 0.5px solid var(--border);
+  border-radius: 2px; letter-spacing: 0.04em; white-space: nowrap;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: clamp(20px, 3vw, 32px) var(--pad);
+  border-top: 0.5px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-copy { font-size: 12px; color: var(--text-dim); font-weight: 300; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 12px; color: rgba(240,236,227,0.3);
+  letter-spacing: 0.06em; transition: color 0.2s; cursor: pointer;
+}
+.footer-links a:hover { color: var(--accent); }
+
+/* ===== PROJECT PAGE ===== */
+.project-hero {
+  padding: clamp(48px, 8vw, 100px) var(--pad) clamp(40px, 6vw, 72px);
+  border-bottom: 0.5px solid var(--border);
+}
+.back-link {
+  font-size: 12px; color: var(--text-muted); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 32px;
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+.project-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+}
+.project-title {
+  font-family: var(--serif); font-size: clamp(40px, 7vw, 80px);
+  font-weight: 900; line-height: 0.95; color: var(--text); margin-bottom: 24px;
+}
+.project-title em { font-style: italic; color: var(--accent); }
+.project-meta {
+  display: flex; gap: 40px; flex-wrap: wrap; margin-top: 32px;
+}
+.project-meta-item label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--text-dim);
+  display: block; margin-bottom: 5px;
+}
+.project-meta-item span {
+  font-size: 14px; font-weight: 300; color: var(--text-muted);
+}
+
+.project-body { padding: clamp(40px, 6vw, 80px) var(--pad); }
+.project-intro {
+  font-size: clamp(16px, 2vw, 19px); font-weight: 300;
+  color: rgba(240,236,227,0.75); line-height: 1.8;
+  max-width: 680px; margin-bottom: 56px;
+}
+.project-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; margin-bottom: 3px;
+}
+.project-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.project-img {
+  aspect-ratio: 4/3; background-size: cover; background-position: center;
+  position: relative; overflow: hidden;
+}
+.project-img.wide { grid-column: span 2; aspect-ratio: 16/7; }
+.project-img-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(14,14,14,0.9), transparent);
+  font-size: 11px; font-weight: 300; color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+.project-deliverables {
+  margin-top: 56px; padding-top: 40px; border-top: 0.5px solid var(--border);
+}
+.deliverables-title {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px;
+}
+.deliverables-list {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.deliverable-tag {
+  font-size: 12px; font-weight: 400; color: var(--text-muted);
+  padding: 8px 16px; border: 0.5px solid var(--border);
+  border-radius: 2px;
+}
+.project-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: clamp(32px, 4vw, 52px) var(--pad);
+  border-top: 0.5px solid var(--border);
+  flex-wrap: wrap; gap: 20px;
+}
+.project-nav-item { cursor: pointer; }
+.project-nav-item label {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-dim); display: block; margin-bottom: 6px;
+}
+.project-nav-item span {
+  font-family: var(--serif); font-size: 20px; font-weight: 700;
+  color: var(--text-muted); transition: color 0.2s;
+}
+.project-nav-item:hover span { color: var(--accent); }
+
+/* ===== CONTACT PAGE ===== */
+.contact-page { padding: clamp(60px, 8vw, 100px) var(--pad); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-left .contact-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
+}
+.contact-title {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900; line-height: 1; color: var(--text); margin-bottom: 24px;
+}
+.contact-title em { font-style: italic; color: var(--accent); }
+.contact-body {
+  font-size: 15px; font-weight: 300; color: var(--text-muted);
+  line-height: 1.85; margin-bottom: 40px;
+}
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+.contact-info-item label {
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-dim); display: block; margin-bottom: 5px;
+}
+.contact-info-item a {
+  font-size: 15px; font-weight: 300; color: var(--text-muted);
+  transition: color 0.2s;
+}
+.contact-info-item a:hover { color: var(--accent); }
+
+/* ===== FORM ===== */
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: var(--bg-2); border: 0.5px solid var(--border);
+  color: var(--text); font-family: var(--sans); font-size: 14px;
+  font-weight: 300; padding: 14px 16px; border-radius: 2px;
+  outline: none; transition: border-color 0.2s; width: 100%;
+  -webkit-appearance: none;
+}
+.form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer; }
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--accent); }
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(240,236,227,0.2); }
+.form-group textarea { resize: vertical; min-height: 140px; }
+.form-submit {
+  background: var(--accent); color: #0e0e0e; border: none;
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 16px 36px; border-radius: 2px; cursor: pointer;
+  transition: background 0.2s; align-self: flex-start;
+}
+.form-submit:hover { background: var(--accent-light); }
+.form-success {
+  display: none; padding: 20px 24px;
+  border: 0.5px solid rgba(232,128,58,0.4);
+  color: var(--accent); font-size: 14px; font-weight: 300;
+  line-height: 1.6; border-radius: 2px;
+}
+
+/* ===== PORTFOLIO INDEX PAGE ===== */
+.portfolio-page { padding: clamp(48px, 7vw, 88px) var(--pad); }
+.portfolio-title {
+  font-family: var(--serif); font-size: clamp(36px, 6vw, 68px);
+  font-weight: 900; color: var(--text); line-height: 0.95;
+  margin-bottom: 16px;
+}
+.portfolio-subtitle {
+  font-size: 15px; font-weight: 300; color: var(--text-muted);
+  margin-bottom: 56px; max-width: 480px; line-height: 1.75;
+}
+.portfolio-all-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+}
+.portfolio-all-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  min-height: 240px; background: var(--bg-3);
+}
+.portfolio-all-card .work-card-img { transition: transform 0.5s ease; }
+.portfolio-all-card:hover .work-card-img { transform: scale(1.05); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(3) { border-right: 0.5px solid var(--border); border-top: 0.5px solid var(--border); }
+  .stat:nth-child(4) { border-right: none; border-top: 0.5px solid var(--border); }
+  .work-grid { grid-template-columns: 1fr 1fr; gap: 3px; }
+  .work-card:first-child { grid-column: span 2; }
+  .about-strip { grid-template-columns: 1fr; }
+  .skill-tags { flex-direction: row; flex-wrap: wrap; min-width: auto; }
+  .skill-tag { white-space: normal; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  .form-row { grid-template-columns: 1fr; }
+  .portfolio-all-grid { grid-template-columns: repeat(2, 1fr); }
+  .project-grid { grid-template-columns: 1fr; }
+  .project-grid .project-img.wide { grid-column: span 1; aspect-ratio: 4/3; }
+  .project-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+  .work-grid { grid-template-columns: 1fr; }
+  .work-card:first-child { grid-column: span 1; min-height: 260px; }
+  .portfolio-all-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .clients-list { gap: 4px; }
+  .client-name { margin-right: 16px; padding-right: 16px; font-size: 13px; }
+  .project-grid-3 { grid-template-columns: 1fr; }
+  .project-title { font-size: clamp(36px, 9vw, 56px); }
+  .hero-headline { font-size: clamp(44px, 12vw, 72px); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV (shared) -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <svg class="nav-rook" viewBox="0 0 100 133" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#e8803a" d="M30.7,5 L69.3,5 C73.5,5 74,6 74,9 L74,17 C74,20 72,23 69,26 C66,29 63,31 61.3,35 C60,38.5 59.5,40 59.5,42 C59.2,45 59.8,48 61,52 C62.5,56 64.5,60 67,65 C70,71 73.5,76 77,81 C79.5,85 80,88 79,92 C78,95.5 75,97.5 72,98.5 L64,100 C60,100.5 55,101 50,101 C45,101 40,100.5 36,100 L28,98.5 C25,97.5 22,95.5 21,92 C20,88 20.5,85 23,81 C26.5,76 30,71 33,65 C35.5,60 37.5,56 39,52 C40.2,48 40.8,45 40.5,42 C40.5,40 40,38.5 38.7,35 C37,31 34,29 31,26 C28,23 26,20 26,17 L26,9 C26,6 26.5,5 30.7,5 Z"/>
+    </svg>
+    <span class="nav-wordmark">Rook Designs</span>
+  </div>
+  <div class="nav-links">
+    <a onclick="showPage('portfolio')">Work</a>
+    <a onclick="showPage('home'); setTimeout(()=>document.querySelector('.about-strip').scrollIntoView({behavior:'smooth'}),100)">About</a>
+    <a onclick="window.open('resume.pdf','_blank')">Resume</a>
+    <a onclick="showPage('contact')">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="showPage('contact')">Hire Me</button>
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="showPage('portfolio');toggleMenu()">Work</a>
+  <a onclick="showPage('home');toggleMenu();setTimeout(()=>document.querySelector('.about-strip').scrollIntoView({behavior:'smooth'}),300)">About</a>
+  <a onclick="toggleMenu()">Resume</a>
+  <a onclick="showPage('contact');toggleMenu()">Contact</a>
+  <a onclick="showPage('contact');toggleMenu()" style="color:var(--accent);">Hire Me →</a>
+</div>
+
+<!-- ============================
+     PAGE: HOME
+============================= -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <svg class="hero-bg-rook" viewBox="0 0 100 133" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="rgba(240,236,227,0.04)" d="M30.7,5 L69.3,5 C73.5,5 74,6 74,9 L74,17 C74,20 72,23 69,26 C66,29 63,31 61.3,35 C60,38.5 59.5,40 59.5,42 C59.2,45 59.8,48 61,52 C62.5,56 64.5,60 67,65 C70,71 73.5,76 77,81 C79.5,85 80,88 79,92 C78,95.5 75,97.5 72,98.5 L64,100 C60,100.5 55,101 50,101 C45,101 40,100.5 36,100 L28,98.5 C25,97.5 22,95.5 21,92 C20,88 20.5,85 23,81 C26.5,76 30,71 33,65 C35.5,60 37.5,56 39,52 C40.2,48 40.8,45 40.5,42 C40.5,40 40,38.5 38.7,35 C37,31 34,29 31,26 C28,23 26,20 26,17 L26,9 C26,6 26.5,5 30.7,5 Z"/>
+    </svg>
+    <p class="hero-eyebrow">Graphic Design · Long Island, NY · Augusta, GA · 25+ Years Experience</p>
+    <h1 class="hero-headline">Under Construction<br>
+     <em>Coming Soon.</em></h1>
+    <p class="hero-sub">Campaign systems, brand identities, packaging, and print/digital design — built for brands that demand to be remembered.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('portfolio')">View Portfolio</button>
+      <span class="btn-ghost" onclick="showPage('contact')">info@rookdesigns.com →</span>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">25+</div><div class="stat-label">Years experience</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Brands served</div></div>
+    <div class="stat"><div class="stat-num">MLB</div><div class="stat-label">All-Star credentials</div></div>
+    <div class="stat"><div class="stat-num">8×</div><div class="stat-label">Industry awards</div></div>
+  </div>
+
+  <section class="work">
+    <div class="section-header">
+      <span class="section-eyebrow">Selected work</span>
+      <span class="section-link" onclick="showPage('portfolio')">View all →</span>
+    </div>
+    <div class="work-grid">
+
+      <div class="work-card" onclick="showPage('project-island')">
+        <div class="work-card-img img-island"
+          style="background-image: url('images/island-federal-hero.jpg');">
+          <!-- REPLACE: Upload your best Island Federal campaign image here -->
+        </div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Campaigns · Brand Systems</div>
+          <div class="work-card-title">Island Federal Credit Union</div>
+          <div class="work-card-sub">Direct mail · Brochures · Digital · Signage · Merch</div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="showPage('project-mlb')">
+        <div class="work-card-img img-mlb"
+          style="background-image: url('images/mlb-hero.jpg');">
+          <!-- REPLACE: MLB All-Star field graphic or Hall of Fame star image -->
+        </div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Sports · Identity · Signage</div>
+          <div class="work-card-title">Major League Baseball</div>
+          <div class="work-card-sub">2008 All-Star Game · World Series · Naturals Brand</div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="showPage('project-kitchenaid')">
+        <div class="work-card-img img-kitchen"
+          style="background-image: url('images/kitchenaid-hero.jpg');">
+          <!-- REPLACE: KitchenAid or Farberware packaging flatlay -->
+        </div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Packaging · Print</div>
+          <div class="work-card-title">KitchenAid & Farberware</div>
+          <div class="work-card-sub">Lifetime Brands — retail packaging systems</div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="showPage('project-widex')">
+        <div class="work-card-img img-widex"
+          style="background-image: url('images/widex-hero.jpg');">
+          <!-- REPLACE: Widex Unique campaign lifestyle image -->
+        </div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Campaigns · Healthcare</div>
+          <div class="work-card-title">Widex USA</div>
+          <div class="work-card-sub">Unique & Beyond multi-channel campaigns</div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="showPage('portfolio')">
+        <div class="work-card-img img-logos"
+          style="background-image: url('images/logos-hero.jpg');">
+          <!-- REPLACE: Logo grid or Empire Chemical / Naturals marks -->
+        </div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Identity · Logo Design</div>
+          <div class="work-card-title">Brand Identity Work</div>
+          <div class="work-card-sub">Empire Chemical · Franjuli · Wood Park & more</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="clients">
+    <p class="clients-label">Brands I've worked with</p>
+    <div class="clients-list">
+      <span class="client-name">MLB</span>
+      <span class="client-name">NY Jets</span>
+      <span class="client-name">KitchenAid</span>
+      <span class="client-name">Farberware</span>
+      <span class="client-name">Hershey's</span>
+      <span class="client-name">Rawlings</span>
+      <span class="client-name">Widex</span>
+      <span class="client-name">HarperCollins</span>
+      <span class="client-name">Disney</span>
+      <span class="client-name">Universal Studios</span>
+      <span class="client-name">Newsday</span>
+      <span class="client-name">NBTY</span>
+      <span class="client-name">Dolly Parton</span>
+    </div>
+  </div>
+
+  <div class="about-strip">
+    <div class="about-left">
+      <p class="about-eyebrow">The designer</p>
+      <h2 class="about-name">John Tsopanarias, Jr.</h2>
+      <p class="about-body">Twenty-five years of campaign-level design across print, digital, packaging, and brand identity. Currently Manager, Graphic Design &amp; Creative Direction at Island Federal Credit Union, where I run all creative output — from strategy to production — as the sole in-house designer. I build systems that scale, brands that stick, and campaigns that work.</p>
+    </div>
+    <div class="skill-tags">
+      <div class="skill-tag">Adobe CC · Firefly AI</div>
+      <div class="skill-tag">Campaign Systems</div>
+      <div class="skill-tag">Brand Identity</div>
+      <div class="skill-tag">Packaging Design</div>
+      <div class="skill-tag">Print Production</div>
+      <div class="skill-tag">Digital · Social · Web</div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/jtsop" target="_blank">LinkedIn</a>
+      <a onclick="showPage('portfolio')">Work</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PORTFOLIO INDEX
+============================= -->
+<div class="page" id="page-portfolio">
+  <div class="portfolio-page">
+    <h1 class="portfolio-title">All<br><em style="font-style:italic;color:var(--accent)">Work</em></h1>
+    <p class="portfolio-subtitle">Campaign systems, packaging, identity, and print across two decades and 50+ brands.</p>
+    <div class="portfolio-all-grid">
+
+      <div class="portfolio-all-card" onclick="showPage('project-island')">
+        <div class="work-card-img img-island" style="background-image:url('images/island-federal-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Campaigns · Brand</div>
+          <div class="work-card-title">Island Federal CU</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-mlb')">
+        <div class="work-card-img img-mlb" style="background-image:url('images/mlb-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Sports · Identity</div>
+          <div class="work-card-title">Major League Baseball</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-kitchenaid')">
+        <div class="work-card-img img-kitchen" style="background-image:url('images/kitchenaid-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Packaging</div>
+          <div class="work-card-title">KitchenAid & Farberware</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-widex')">
+        <div class="work-card-img img-widex" style="background-image:url('images/widex-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Campaigns · Healthcare</div>
+          <div class="work-card-title">Widex USA</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-newsday')">
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Print · Advertising</div>
+          <div class="work-card-title">Newsday</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-nbty')">
+        <div class="work-card-img" style="background:linear-gradient(135deg,#0d2010,#081508);background-image:url('images/nbty-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Retail · Visual Merch</div>
+          <div class="work-card-title">NBTY · Vitamin World</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-nyjets')">
+        <div class="work-card-img" style="background:linear-gradient(135deg,#20100d,#150a08);background-image:url('images/nyjets-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Sports · Collateral</div>
+          <div class="work-card-title">NY Jets</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-logos')">
+        <div class="work-card-img img-logos" style="background-image:url('images/logos-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Identity · Logo Design</div>
+          <div class="work-card-title">Brand Identities</div>
+        </div>
+      </div>
+
+      <div class="portfolio-all-card" onclick="showPage('project-harpercollins')">
+        <div class="work-card-img" style="background:linear-gradient(135deg,#0e1520,#080d15);background-image:url('images/harpercollins-hero.jpg');"></div>
+        <div class="work-card-overlay"></div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Publishing · Collateral</div>
+          <div class="work-card-title">HarperCollins</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — ISLAND FEDERAL
+============================= -->
+<div class="page" id="page-project-island">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Campaigns · Brand Systems · 2018–Present</p>
+      <h1 class="project-title">Island Federal<br><em>Credit Union</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>Island Federal Credit Union</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Manager, Graphic Design & Creative Direction (In-house)</span></div>
+        <div class="project-meta-item"><label>Scope</label><span>Full brand system + campaigns</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">As sole in-house designer, I built and maintained the entire visual output for Island Federal — from direct mail campaigns and branch signage to ATM wraps, van graphics, university partnerships, and digital assets across 10+ branch locations on Long Island.</p>
+
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide img-island" style="background-image:url('images/island-federal-campaign-main.jpg');">
+        <!-- REPLACE: Island Style campaign — the teal/blue brochure spread works great here -->
+        <div class="project-img-label">Island Style campaign — direct mail & brochure system</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-island" style="background-image:url('images/island-federal-postcard.jpg');">
+        <div class="project-img-label">East Setauket branch direct mail postcard</div>
+      </div>
+      <div class="project-img img-island" style="background-image:url('images/island-federal-brochures.jpg');">
+        <div class="project-img-label">Product brochure suite</div>
+      </div>
+    </div>
+    <div class="project-grid project-grid-3" style="margin-bottom:3px;">
+      <div class="project-img img-island" style="background-image:url('images/island-federal-hofstra.jpg');">
+        <div class="project-img-label">Hofstra University partnership</div>
+      </div>
+      <div class="project-img img-island" style="background-image:url('images/island-federal-stonybrook.jpg');">
+        <div class="project-img-label">Stony Brook University — ATM wrap & debit cards</div>
+      </div>
+      <div class="project-img img-island" style="background-image:url('images/island-federal-van.jpg');">
+        <div class="project-img-label">Van wrap & vehicle graphics</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-island" style="background-image:url('images/island-federal-logos.jpg');">
+        <div class="project-img-label">Logo concepts & anniversary marks</div>
+      </div>
+      <div class="project-img img-island" style="background-image:url('images/island-federal-window.jpg');">
+        <div class="project-img-label">Window wrap — Massapequa branch</div>
+      </div>
+    </div>
+
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Direct Mail</span>
+        <span class="deliverable-tag">Brochures</span>
+        <span class="deliverable-tag">Digital Ads</span>
+        <span class="deliverable-tag">Email Graphics</span>
+        <span class="deliverable-tag">ATM Screens</span>
+        <span class="deliverable-tag">ATM Wraps</span>
+        <span class="deliverable-tag">Van Wraps</span>
+        <span class="deliverable-tag">Window Wraps</span>
+        <span class="deliverable-tag">Debit Card Design</span>
+        <span class="deliverable-tag">Logo Design</span>
+        <span class="deliverable-tag">Newsletter</span>
+        <span class="deliverable-tag">Digital Signage</span>
+        <span class="deliverable-tag">Homepage Banners</span>
+        <span class="deliverable-tag">Social Graphics</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('portfolio')">
+      <label>← Back to</label>
+      <span>All Work</span>
+    </div>
+    <div class="project-nav-item" onclick="showPage('project-mlb')">
+      <label>Next project →</label>
+      <span>Major League Baseball</span>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — MLB
+============================= -->
+<div class="page" id="page-project-mlb">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Sports · Identity · Signage · 2008–2009</p>
+      <h1 class="project-title">Major League<br><em>Baseball</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>Major League Baseball</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Freelance Graphic Designer</span></div>
+        <div class="project-meta-item"><label>Highlights</label><span>2008 All-Star Game · Yankee Stadium</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Worked alongside MLB's in-house design department on some of the sport's highest-profile events — including the 2008 All-Star Game at Yankee Stadium, the 2009 World Baseball Classic, and brand packaging for the Naturals health initiative.</p>
+
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide img-mlb" style="background-image:url('images/mlb-allstar-field.jpg');">
+        <div class="project-img-label">2008 MLB All-Star Game — field graphics & signage, Yankee Stadium</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-hofame-stars.jpg');">
+        <div class="project-img-label">Hall of Fame stars — pre-game ceremony</div>
+      </div>
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-ball-basket.jpg');">
+        <div class="project-img-label">Rawlings ball basket — Home Run Derby</div>
+      </div>
+    </div>
+    <div class="project-grid project-grid-3" style="margin-bottom:3px;">
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-naturals-logo.jpg');">
+        <div class="project-img-label">Naturals brand — logo exploration</div>
+      </div>
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-naturals-packaging.jpg');">
+        <div class="project-img-label">Naturals snack pack — full packaging system</div>
+      </div>
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-worldseries.jpg');">
+        <div class="project-img-label">Ultimate World Series Sweepstakes — logo & promos</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-binders.jpg');">
+        <div class="project-img-label">Club Sponsors binder covers — 2008 & 2009</div>
+      </div>
+      <div class="project-img img-mlb" style="background-image:url('images/mlb-sponsors.jpg');">
+        <div class="project-img-label">Sponsorship collateral — Hershey's, Rawlings, State Farm</div>
+      </div>
+    </div>
+
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Field Graphics</span>
+        <span class="deliverable-tag">Event Signage</span>
+        <span class="deliverable-tag">Hall of Fame Stars</span>
+        <span class="deliverable-tag">Ball Basket Graphics</span>
+        <span class="deliverable-tag">Logo Design</span>
+        <span class="deliverable-tag">Packaging System</span>
+        <span class="deliverable-tag">Binder Covers</span>
+        <span class="deliverable-tag">Posters</span>
+        <span class="deliverable-tag">Print Ads</span>
+        <span class="deliverable-tag">Promotion Pieces</span>
+        <span class="deliverable-tag">T-Shirts</span>
+        <span class="deliverable-tag">Invitations</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-island')">
+      <label>← Previous</label>
+      <span>Island Federal CU</span>
+    </div>
+    <div class="project-nav-item" onclick="showPage('project-kitchenaid')">
+      <label>Next project →</label>
+      <span>KitchenAid & Farberware</span>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — KITCHENAID
+============================= -->
+<div class="page" id="page-project-kitchenaid">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Packaging · Print Production · 2007–Present</p>
+      <h1 class="project-title">KitchenAid &<br><em>Farberware</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>Lifetime Brands, Inc.</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Freelance Graphic Designer</span></div>
+        <div class="project-meta-item"><label>Brands</label><span>KitchenAid · Farberware · Cuisinart · Dolly Parton</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Retail packaging design for some of the most recognizable kitchen brands in America. Work spans product box dielines, kraft paper wraps, header cards, and trade show booth graphics — all produced to exact retail and UPC specifications.</p>
+
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide img-kitchen" style="background-image:url('images/kitchenaid-cutlery.jpg');">
+        <div class="project-img-label">KitchenAid 14-piece Fine Edge Forged Cutlery Set — retail box dieline</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-kitchen" style="background-image:url('images/farberware-bowls.jpg');">
+        <div class="project-img-label">Farberware Set of 3 Mixing Bowls — kraft wrap dieline</div>
+      </div>
+      <div class="project-img img-kitchen" style="background-image:url('images/kitchenaid-grater.jpg');">
+        <div class="project-img-label">KitchenAid Cup Grater — retail packaging</div>
+      </div>
+    </div>
+    <div class="project-grid project-grid-3" style="margin-bottom:3px;">
+      <div class="project-img img-kitchen" style="background-image:url('images/farberware-peeler.jpg');">
+        <div class="project-img-label">Farberware Euro Peeler — header card</div>
+      </div>
+      <div class="project-img img-kitchen" style="background-image:url('images/dollyparton-packaging.jpg');">
+        <div class="project-img-label">Dolly Parton food containers — licensed packaging</div>
+      </div>
+      <div class="project-img img-kitchen" style="background-image:url('images/lifetime-tradeshow.jpg');">
+        <div class="project-img-label">Lifetime Brands — Housewares Show booth, Chicago</div>
+      </div>
+    </div>
+
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Box Dielines</span>
+        <span class="deliverable-tag">Kraft Wraps</span>
+        <span class="deliverable-tag">Header Cards</span>
+        <span class="deliverable-tag">Clamshell Graphics</span>
+        <span class="deliverable-tag">Showroom Signage</span>
+        <span class="deliverable-tag">Trade Show Booths</span>
+        <span class="deliverable-tag">Brand Compliance</span>
+        <span class="deliverable-tag">UPC Integration</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-mlb')">
+      <label>← Previous</label>
+      <span>Major League Baseball</span>
+    </div>
+    <div class="project-nav-item" onclick="showPage('project-widex')">
+      <label>Next project →</label>
+      <span>Widex USA</span>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — WIDEX
+============================= -->
+<div class="page" id="page-project-widex">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Campaigns · Healthcare · 2015–2018</p>
+      <h1 class="project-title">Widex<br><em>USA</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>Widex USA</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Sole In-House Designer</span></div>
+        <div class="project-meta-item"><label>Campaigns</label><span>Unique · Beyond · Welcome</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">As the sole designer for Widex's U.S. division, I developed end-to-end campaign systems for multiple product launches — coordinating with headquarters in Denmark to maintain global brand standards while producing locally-relevant B2B and B2C collateral for audiology practices nationwide.</p>
+
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide img-widex" style="background-image:url('images/widex-unique-main.jpg');">
+        <div class="project-img-label">Widex Unique — "I'm Unique, I Wear Widex" campaign print ad</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-widex" style="background-image:url('images/widex-unique-mailers.jpg');">
+        <div class="project-img-label">Unique campaign — event mailer system (4 versions)</div>
+      </div>
+      <div class="project-img img-widex" style="background-image:url('images/widex-beyond-banners.jpg');">
+        <div class="project-img-label">Beyond campaign — web ads & digital banners</div>
+      </div>
+    </div>
+    <div class="project-grid project-grid-3" style="margin-bottom:3px;">
+      <div class="project-img img-widex" style="background-image:url('images/widex-beyond-social.jpg');">
+        <div class="project-img-label">Beyond — social media graphics</div>
+      </div>
+      <div class="project-img img-widex" style="background-image:url('images/widex-beyond-email.jpg');">
+        <div class="project-img-label">Beyond — email invitations</div>
+      </div>
+      <div class="project-img img-widex" style="background-image:url('images/widex-welcome.jpg');">
+        <div class="project-img-label">Welcome to the World of Widex brochure</div>
+      </div>
+    </div>
+
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Print Ads</span>
+        <span class="deliverable-tag">Direct Mail</span>
+        <span class="deliverable-tag">Event Mailers</span>
+        <span class="deliverable-tag">Web Banners</span>
+        <span class="deliverable-tag">Email Graphics</span>
+        <span class="deliverable-tag">Social Media</span>
+        <span class="deliverable-tag">Brochures</span>
+        <span class="deliverable-tag">B2B Collateral</span>
+        <span class="deliverable-tag">Brand Compliance (DK HQ)</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-kitchenaid')">
+      <label>← Previous</label>
+      <span>KitchenAid & Farberware</span>
+    </div>
+    <div class="project-nav-item" onclick="showPage('portfolio')">
+      <label>View all →</label>
+      <span>All Work</span>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: CONTACT
+============================= -->
+<div class="page" id="page-contact">
+  <div class="contact-page">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <p class="contact-eyebrow">Get in touch</p>
+        <h1 class="contact-title">Let's make<br>something<br><em>great.</em></h1>
+        <p class="contact-body">Whether you need a full campaign, a brand identity, packaging, or a single piece that needs to be exactly right — I'd love to hear about it. Based on Long Island, NY & Augusta, GA. Available for freelance and contract work.</p>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <label>Email</label>
+            <a href="mailto:info@rookdesigns.com">info@rookdesigns.com</a>
+          </div>
+          <div class="contact-info-item">
+            <label>Phone</label>
+            <a href="tel:6318965499">631-896-5499</a>
+          </div>
+          <div class="contact-info-item">
+            <label>LinkedIn</label>
+            <a href="https://linkedin.com/in/jtsop" target="_blank">linkedin.com/in/jtsop</a>
+          </div>
+          <div class="contact-info-item">
+            <label>Location</label>
+            <a>Long Island, New York • Augusta, Georgia</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+			<input type="hidden" name="access_key" value="fcf65af2-e95e-46db-9429-22e2fb766a92">
+			<input type="hidden" name="redirect" value="http://rookdesigns.com/thankyou.html">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First name</label>
+              <input type="text" id="fname" name="fname" placeholder="Jane" required>
+            </div>
+            <div class="form-group">
+              <label for="lname">Last name</label>
+              <input type="text" id="lname" name="lname" placeholder="Smith" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@company.com" required>
+          </div>
+          <div class="form-group">
+            <label for="company">Company (optional)</label>
+            <input type="text" id="company" name="company" placeholder="Acme Corp">
+          </div>
+          <div class="form-group">
+            <label for="project-type">Project type</label>
+            <select id="project-type" name="project-type">
+              <option value="">Select a category</option>
+              <option>Campaign / Brand System</option>
+              <option>Logo & Brand Identity</option>
+              <option>Packaging Design</option>
+              <option>Print Advertising</option>
+              <option>Digital / Social</option>
+              <option>Signage & Environmental</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Tell me about your project</label>
+            <textarea id="message" name="message" placeholder="What are you working on? Timeline, budget, deliverables — anything helps." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message →</button>
+          <div class="form-success" id="form-success">
+            Thanks for reaching out! I'll get back to you within 1–2 business days.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('portfolio')">Work</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — NEWSDAY
+============================= -->
+<div class="page" id="page-project-newsday">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Print · Advertising · Promotions · 2004–2006</p>
+      <h1 class="project-title">News<em>day</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>Newsday</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Senior Artist, Advertising & Promotions</span></div>
+        <div class="project-meta-item"><label>Recognition</label><span>Best On Long Island — Gold & Bronze '05, '06, '07</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">As Senior Artist for Newsday's Advertising & Promotions department, I designed daily newspaper ads, special sections, TV spots, and subscriber retention campaigns — earning Best On Long Island gold and bronze awards across print, TV, and internet categories.</p>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide" style="background:linear-gradient(135deg,#1a1030,#0e0a1e);background-image:url('images/newsday-hero.jpg');">
+        <div class="project-img-label">Subscriber Advantage Program — promotional ads</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img" style="background:linear-gradient(135deg,#1a1030,#0e0a1e);background-image:url('images/newsday-sunday.jpg');">
+        <div class="project-img-label">Sunday Fanfare content ads</div>
+      </div>
+      <div class="project-img" style="background:linear-gradient(135deg,#1a1030,#0e0a1e);background-image:url('images/newsday-tv.jpg');">
+        <div class="project-img-label">TV spots for News12 & WB11</div>
+      </div>
+    </div>
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Daily Newspaper Ads</span>
+        <span class="deliverable-tag">Special Sections</span>
+        <span class="deliverable-tag">Subscriber Promotions</span>
+        <span class="deliverable-tag">TV Spots (4/week)</span>
+        <span class="deliverable-tag">Polybags</span>
+        <span class="deliverable-tag">Sell Sheets</span>
+        <span class="deliverable-tag">Rate Cards</span>
+        <span class="deliverable-tag">Posters</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('portfolio')"><label>← Back to</label><span>All Work</span></div>
+    <div class="project-nav-item" onclick="showPage('project-nbty')"><label>Next project →</label><span>NBTY · Vitamin World</span></div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — NBTY
+============================= -->
+<div class="page" id="page-project-nbty">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Retail · Visual Merchandising · Advertising · 2012–2015</p>
+      <h1 class="project-title">NBTY · <em>Vitamin World</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>NBTY / Vitamin World</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Graphic Designer</span></div>
+        <div class="project-meta-item"><label>Scale</label><span>400+ store locations</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Designed advertising, marketing, visual merchandising, and web materials for NBTY's family of brands — including Vitamin World Stores, Met-Rx, Balance Bar, Pure Protein, and VitaminWorld.com — spanning over 400 retail locations nationwide.</p>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide" style="background:linear-gradient(135deg,#0d2010,#081508);background-image:url('images/nbty-hero.jpg');">
+        <div class="project-img-label">Vitamin World retail advertising campaign</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img" style="background:linear-gradient(135deg,#0d2010,#081508);background-image:url('images/nbty-signage.jpg');">
+        <div class="project-img-label">In-store signage — 400+ locations</div>
+      </div>
+      <div class="project-img" style="background:linear-gradient(135deg,#0d2010,#081508);background-image:url('images/nbty-direct-mail.jpg');">
+        <div class="project-img-label">Direct mail & print advertising</div>
+      </div>
+    </div>
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">In-Store Signage</span>
+        <span class="deliverable-tag">Visual Merchandising</span>
+        <span class="deliverable-tag">Direct Mail</span>
+        <span class="deliverable-tag">Print Ads</span>
+        <span class="deliverable-tag">Flyers & Brochures</span>
+        <span class="deliverable-tag">Web Graphics</span>
+        <span class="deliverable-tag">Posters</span>
+        <span class="deliverable-tag">Copywriting</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-newsday')"><label>← Previous</label><span>Newsday</span></div>
+    <div class="project-nav-item" onclick="showPage('project-nyjets')"><label>Next project →</label><span>NY Jets</span></div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — NY JETS
+============================= -->
+<div class="page" id="page-project-nyjets">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Sports · Collateral · Signage · 2008</p>
+      <h1 class="project-title">New York <em>Jets</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>NY Jets via National Communications Group</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Freelance Graphic Designer</span></div>
+        <div class="project-meta-item"><label>Also</label><span>Baltimore Ravens · Cleveland Browns</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Created programs, posters, stadium graphics, and print collateral for the New York Jets football team through National Communications Group — alongside work for the Baltimore Ravens and Cleveland Browns.</p>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide" style="background:linear-gradient(135deg,#20100d,#150a08);background-image:url('images/nyjets-hero.jpg');">
+        <div class="project-img-label">NY Jets Playbook — Game 1 program</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img" style="background:linear-gradient(135deg,#20100d,#150a08);background-image:url('images/nyjets-program.jpg');">
+        <div class="project-img-label">Game day program interior spreads</div>
+      </div>
+      <div class="project-img" style="background:linear-gradient(135deg,#20100d,#150a08);background-image:url('images/nyjets-signage.jpg');">
+        <div class="project-img-label">Stadium graphics & signage</div>
+      </div>
+    </div>
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Game Programs</span>
+        <span class="deliverable-tag">Stadium Graphics</span>
+        <span class="deliverable-tag">Posters</span>
+        <span class="deliverable-tag">Print Collateral</span>
+        <span class="deliverable-tag">Signage</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-nbty')"><label>← Previous</label><span>NBTY · Vitamin World</span></div>
+    <div class="project-nav-item" onclick="showPage('project-logos')"><label>Next project →</label><span>Brand Identities</span></div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — LOGOS
+============================= -->
+<div class="page" id="page-project-logos">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Identity · Logo Design · Various</p>
+      <h1 class="project-title">Brand <em>Identities</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Clients</label><span>Various</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Logo & Identity Designer</span></div>
+        <div class="project-meta-item"><label>Includes</label><span>Empire Chemical · Franjuli · Wood Park & more</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Logo and brand identity work spanning sports, retail, jewelry, education, and consumer goods — from emblem-style marks and badge logos to clean wordmarks and illustrated mascots.</p>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide img-logos" style="background-image:url('images/logos-hero.jpg');">
+        <div class="project-img-label">Brand identity portfolio — selected marks</div>
+      </div>
+    </div>
+    <div class="project-grid project-grid-3" style="margin-bottom:3px;">
+      <div class="project-img img-logos" style="background-image:url('images/logos-empire.jpg');">
+        <div class="project-img-label">Empire Chemical — logo concepts</div>
+      </div>
+      <div class="project-img img-logos" style="background-image:url('images/logos-franjuli.jpg');">
+        <div class="project-img-label">Franjuli Jewelry — wordmark & identity</div>
+      </div>
+      <div class="project-img img-logos" style="background-image:url('images/logos-woodpark.jpg');">
+        <div class="project-img-label">Wood Park Primary School — mascot & mark</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img img-logos" style="background-image:url('images/logos-destination.jpg');">
+        <div class="project-img-label">Destination Weddings & Honeymoons — two treatments</div>
+      </div>
+      <div class="project-img img-logos" style="background-image:url('images/logos-soccer.jpg');">
+        <div class="project-img-label">Elite Soccer Training — shield mark</div>
+      </div>
+    </div>
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Logo Design</span>
+        <span class="deliverable-tag">Brand Identity</span>
+        <span class="deliverable-tag">Emblem Marks</span>
+        <span class="deliverable-tag">Wordmarks</span>
+        <span class="deliverable-tag">Badge Logos</span>
+        <span class="deliverable-tag">Mascot Illustration</span>
+        <span class="deliverable-tag">Multiple Concepts</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-nyjets')"><label>← Previous</label><span>NY Jets</span></div>
+    <div class="project-nav-item" onclick="showPage('project-harpercollins')"><label>Next project →</label><span>HarperCollins</span></div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<!-- ============================
+     PAGE: PROJECT — HARPERCOLLINS
+============================= -->
+<div class="page" id="page-project-harpercollins">
+  <div class="project-hero">
+    <div class="container">
+      <div class="back-link" onclick="showPage('portfolio')">← All work</div>
+      <p class="project-eyebrow">Publishing · Print & Web · 2007–2014</p>
+      <h1 class="project-title">Harper<em>Collins</em></h1>
+      <div class="project-meta">
+        <div class="project-meta-item"><label>Client</label><span>HarperCollins Publishers</span></div>
+        <div class="project-meta-item"><label>Role</label><span>Freelance Graphic Designer</span></div>
+        <div class="project-meta-item"><label>Imprints</label><span>HarperOne · Avon · Morrow · Perennial · Rayo · Amistad</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="project-body">
+    <p class="project-intro">Designed print and web advertising, promotional collateral, and sales materials for HarperCollins Publishers' ad and promotions department — spanning six imprints over seven years of freelance engagement.</p>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img wide" style="background:linear-gradient(135deg,#0e1520,#080d15);background-image:url('images/harpercollins-hero.jpg');">
+        <div class="project-img-label">HarperCollins promotional collateral suite</div>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-bottom:3px;">
+      <div class="project-img" style="background:linear-gradient(135deg,#0e1520,#080d15);background-image:url('images/harpercollins-ads.jpg');">
+        <div class="project-img-label">Print & web ads across imprints</div>
+      </div>
+      <div class="project-img" style="background:linear-gradient(135deg,#0e1520,#080d15);background-image:url('images/harpercollins-collateral.jpg');">
+        <div class="project-img-label">Bookmarks, postcards & shelf-talkers</div>
+      </div>
+    </div>
+    <div class="project-deliverables">
+      <p class="deliverables-title">Deliverables</p>
+      <div class="deliverables-list">
+        <span class="deliverable-tag">Print Ads</span>
+        <span class="deliverable-tag">Web Ads</span>
+        <span class="deliverable-tag">Postcards</span>
+        <span class="deliverable-tag">Bookmarks</span>
+        <span class="deliverable-tag">Posters</span>
+        <span class="deliverable-tag">Risers</span>
+        <span class="deliverable-tag">Shelf-Talkers</span>
+        <span class="deliverable-tag">Catalogs</span>
+      </div>
+    </div>
+  </div>
+  <div class="project-nav">
+    <div class="project-nav-item" onclick="showPage('project-logos')"><label>← Previous</label><span>Brand Identities</span></div>
+    <div class="project-nav-item" onclick="showPage('portfolio')"><label>View all →</label><span>All Work</span></div>
+  </div>
+  <footer>
+    <span class="footer-copy">©2026 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links"><a onclick="showPage('home')">Home</a><a onclick="showPage('contact')">Contact</a></div>
+  </footer>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  menu.classList.toggle('open');
+}
+
+// Close mobile menu on outside click
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+</script>

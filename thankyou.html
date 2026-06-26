@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Message Sent — Rook Designs</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0e0e0e;
+    color: #f0ece3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 64px;
+    border-bottom: 0.5px solid rgba(240,236,227,0.1);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: inherit;
+  }
+  .nav-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 12px; font-weight: 400; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(240,236,227,0.55);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #f0ece3; }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ghosted rook watermark */
+  .bg-rook {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(280px, 45vw, 560px);
+    height: auto;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .card {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .rook-icon {
+    width: 52px;
+    height: 70px;
+    margin: 0 auto 36px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #e8803a;
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s ease 0.15s both;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 0.95;
+    color: #f0ece3;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+  h1 em { font-style: italic; color: #e8803a; }
+
+  .body-text {
+    font-size: 16px; font-weight: 300;
+    color: rgba(240,236,227,0.6);
+    line-height: 1.8; margin-bottom: 48px;
+    max-width: 420px; margin-left: auto; margin-right: auto;
+    animation: fadeUp 0.7s ease 0.25s both;
+  }
+
+  .actions {
+    display: flex; align-items: center; justify-content: center;
+    gap: 28px; flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #0e0e0e;
+    background: #e8803a; padding: 14px 32px;
+    border-radius: 2px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: #f59550; }
+
+  .btn-ghost {
+    font-size: 13px; font-weight: 300;
+    color: rgba(240,236,227,0.5);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: #f0ece3; }
+
+  /* FOOTER */
+  footer {
+    padding: 24px 64px;
+    border-top: 0.5px solid rgba(240,236,227,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-copy { font-size: 12px; color: rgba(240,236,227,0.25); font-weight: 300; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 12px; color: rgba(240,236,227,0.35);
+    text-decoration: none; letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: #e8803a; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    footer { padding: 24px; }
+    .bg-rook { width: 260px; right: -30px; opacity: 0.8; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="/">
+      <svg width="26" height="35" viewBox="0 0 100 133" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#e8803a" d="M30.7,5 L69.3,5 C73.5,5 74,6 74,9 L74,17 C74,20 72,23 69,26 C66,29 63,31 61.3,35 C60,38.5 59.5,40 59.5,42 C59.2,45 59.8,48 61,52 C62.5,56 64.5,60 67,65 C70,71 73.5,76 77,81 C79.5,85 80,88 79,92 C78,95.5 75,97.5 72,98.5 L64,100 C60,100.5 55,101 50,101 C45,101 40,100.5 36,100 L28,98.5 C25,97.5 22,95.5 21,92 C20,88 20.5,85 23,81 C26.5,76 30,71 33,65 C35.5,60 37.5,56 39,52 C40.2,48 40.8,45 40.5,42 C40.5,40 40,38.5 38.7,35 C37,31 34,29 31,26 C28,23 26,20 26,17 L26,9 C26,6 26.5,5 30.7,5 Z"/>
+      </svg>
+      <span class="nav-wordmark">Rook Designs</span>
+    </a>
+    <div class="nav-links">
+      <a href="/">Work</a>
+      <a href="/">About</a>
+      <a href="/resume.pdf" target="_blank">Resume</a>
+      <a href="/">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Ghosted rook watermark -->
+    <svg class="bg-rook" viewBox="0 0 100 133" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="rgba(240,236,227,0.04)" d="M30.7,5 L69.3,5 C73.5,5 74,6 74,9 L74,17 C74,20 72,23 69,26 C66,29 63,31 61.3,35 C60,38.5 59.5,40 59.5,42 C59.2,45 59.8,48 61,52 C62.5,56 64.5,60 67,65 C70,71 73.5,76 77,81 C79.5,85 80,88 79,92 C78,95.5 75,97.5 72,98.5 L64,100 C60,100.5 55,101 50,101 C45,101 40,100.5 36,100 L28,98.5 C25,97.5 22,95.5 21,92 C20,88 20.5,85 23,81 C26.5,76 30,71 33,65 C35.5,60 37.5,56 39,52 C40.2,48 40.8,45 40.5,42 C40.5,40 40,38.5 38.7,35 C37,31 34,29 31,26 C28,23 26,20 26,17 L26,9 C26,6 26.5,5 30.7,5 Z"/>
+    </svg>
+
+    <div class="card">
+      <svg class="rook-icon" viewBox="0 0 100 133" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#e8803a" d="M30.7,5 L69.3,5 C73.5,5 74,6 74,9 L74,17 C74,20 72,23 69,26 C66,29 63,31 61.3,35 C60,38.5 59.5,40 59.5,42 C59.2,45 59.8,48 61,52 C62.5,56 64.5,60 67,65 C70,71 73.5,76 77,81 C79.5,85 80,88 79,92 C78,95.5 75,97.5 72,98.5 L64,100 C60,100.5 55,101 50,101 C45,101 40,100.5 36,100 L28,98.5 C25,97.5 22,95.5 21,92 C20,88 20.5,85 23,81 C26.5,76 30,71 33,65 C35.5,60 37.5,56 39,52 C40.2,48 40.8,45 40.5,42 C40.5,40 40,38.5 38.7,35 C37,31 34,29 31,26 C28,23 26,20 26,17 L26,9 C26,6 26.5,5 30.7,5 Z"/>
+      </svg>
+      <p class="eyebrow">Message received</p>
+      <h1>I'll be in<br>touch <em>soon.</em></h1>
+      <p class="body-text">Thanks for reaching out — I'll get back to you within 1–2 business days. In the meantime, feel free to take another look at the work.</p>
+      <div class="actions">
+        <a class="btn-primary" href="/">View Portfolio</a>
+        <a class="btn-ghost" href="/">← Back to Rook Designs</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-copy">© 2025 Rook Designs · John Tsopanarias, Jr.</span>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/jtsop" target="_blank">LinkedIn</a>
+      <a href="/">Work</a>
+      <a href="/">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
