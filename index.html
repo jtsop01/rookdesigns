@@ -470,6 +470,73 @@ footer {
 .portfolio-all-card .work-card-img { transition: transform 0.5s ease; }
 .portfolio-all-card:hover .work-card-img { transform: scale(1.05); }
 
+/* ===== RECOMMENDATIONS ===== */
+.rec-section {
+  padding: clamp(48px, 6vw, 80px) var(--pad);
+  border-top: 0.5px solid var(--border);
+}
+.rec-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 36px; text-align: center;
+}
+.rec-carousel {
+  max-width: 780px; margin: 0 auto; position: relative;
+}
+.rec-track {
+  overflow: hidden; position: relative;
+}
+.rec-slide {
+  display: none;
+  animation: recFade 0.5s ease;
+}
+.rec-slide.active { display: block; }
+@keyframes recFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rec-quote {
+  font-family: var(--serif); font-size: clamp(16px, 2.2vw, 21px);
+  font-weight: 700; font-style: italic;
+  color: var(--text); line-height: 1.6;
+  margin-bottom: 28px; text-align: center;
+  position: relative; padding: 0 20px;
+}
+.rec-quote::before {
+  content: '\201C';
+  font-size: 80px; color: var(--accent); opacity: 0.3;
+  position: absolute; top: -20px; left: -10px;
+  font-family: var(--serif); line-height: 1;
+}
+.rec-author { text-align: center; }
+.rec-name {
+  font-size: 14px; font-weight: 500; color: var(--text);
+  margin-bottom: 4px;
+}
+.rec-title {
+  font-size: 12px; font-weight: 300; color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.rec-controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; margin-top: 36px;
+}
+.rec-btn {
+  background: transparent; border: 0.5px solid var(--border);
+  color: var(--text-muted); font-size: 16px;
+  width: 40px; height: 40px; border-radius: 50%;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.rec-btn:hover { border-color: var(--accent); color: var(--accent); }
+.rec-dots { display: flex; gap: 8px; align-items: center; }
+.rec-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); cursor: pointer;
+  transition: all 0.2s; border: none; padding: 0;
+}
+.rec-dot.active { background: var(--accent); transform: scale(1.3); }
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -672,6 +739,89 @@ footer {
       <div class="skill-tag">Packaging Design</div>
       <div class="skill-tag">Print Production</div>
       <div class="skill-tag">Digital · Social · Web</div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS CAROUSEL -->
+  <div class="rec-section">
+    <p class="rec-eyebrow">What colleagues & clients say</p>
+    <div class="rec-carousel" id="rec-carousel">
+
+      <div class="rec-track" id="rec-track">
+
+        <div class="rec-slide">
+          <div class="rec-quote">"I had the pleasure of working with John for over five years at Island Federal Credit Union, where he currently serves as the Graphic Design Manager. John is an incredibly talented creative professional who consistently delivers outstanding work and brought ideas to life with professionalism and creativity. His attention to detail, ability to understand the vision behind a project, and commitment to quality always stood out..."</div>
+          <div class="rec-author">
+            <div class="rec-name">Rich Klefsky</div>
+            <div class="rec-title">Chief Operating Officer · Ballston Spa National Bank</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"John is an incredibly talented graphic designer who brings both creativity and consistency to everything he works on. He has a strong eye for design, a clear understanding of brand standards, and the ability to translate ideas into clean, effective visuals..."</div>
+          <div class="rec-author">
+            <div class="rec-name">Bryan O'Reilly</div>
+            <div class="rec-title">Strategic Marketing Leader · Island Federal Credit Union</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"There are graphic artists who know a bit about marketing, and then there are marketers who are graphic artists. John is the latter. He successfully translated marketing campaigns across many platforms, maintained brand consistency, contributed ideas, and reliably delivered work that helped the brand stand out."</div>
+          <div class="rec-author">
+            <div class="rec-name">Mary Churchill Wyman</div>
+            <div class="rec-title">Director of Marketing · Island Federal Credit Union</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"John is an excellent designer who delivers quality work on all types of promotional items. He's punctual, creative, and sticks to a budget. Great to work with."</div>
+          <div class="rec-author">
+            <div class="rec-name">Debbie Mercer</div>
+            <div class="rec-title">Director of Advertising & Promotion · HarperCollins Publishers</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"I contacted John two years ago to do regular freelance graphic design work for our Ad Promo department at HarperCollins... John is detail oriented, and his creativity exceeds our expectations. His turn around time is outstanding..."</div>
+          <div class="rec-author">
+            <div class="rec-name">Jennifer Lee Bunker</div>
+            <div class="rec-title">Freelance Copywriter · HarperCollins Publishers</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"John is that rare combination in a graphic designer: highly creative and talented, possessing a refined eye for design and color, with extremely competitive service rates..."</div>
+          <div class="rec-author">
+            <div class="rec-name">Jerod Allen</div>
+            <div class="rec-title">Vice President · City National Bank</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"John is a talented designer and one of the hardest workers I've ever had the pleasure to work with. He's detail-oriented, extremely responsible and very creative."</div>
+          <div class="rec-author">
+            <div class="rec-name">Tim Berry</div>
+            <div class="rec-title">Sr. Designer · Newsday</div>
+          </div>
+        </div>
+
+        <div class="rec-slide">
+          <div class="rec-quote">"John is a passionate, creative graphic designer, that I would love to have work on any project i may have at any level. He's an asset to anyone."</div>
+          <div class="rec-author">
+            <div class="rec-name">Rob Fizer</div>
+            <div class="rec-title">Manager of Data Analytics &amp; Reporting · Centene Corporation</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <div class="rec-controls">
+        <button class="rec-btn" id="rec-prev" onclick="recMove(-1)">←</button>
+        <div class="rec-dots" id="rec-dots"></div>
+        <button class="rec-btn" id="rec-next" onclick="recMove(1)">→</button>
+      </div>
+
     </div>
   </div>
 
@@ -1500,4 +1650,42 @@ document.addEventListener('click', (e) => {
     menu.classList.remove('open');
   }
 });
+
+// Recommendations carousel
+(function() {
+  const slides = document.querySelectorAll('.rec-slide');
+  const dotsContainer = document.getElementById('rec-dots');
+  let current = 0;
+  let timer;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'rec-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    document.querySelectorAll('.rec-dot')[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.rec-dot')[current].classList.add('active');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 6000);
+  }
+
+  // Init
+  slides[0].classList.add('active');
+  resetTimer();
+
+  // Expose for buttons
+  window.recMove = (dir) => goTo(current + dir);
+})();
 </script>
