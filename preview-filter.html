@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rook Designs — Category Filter Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #0e0e0e; color: #f0ece3; line-height: 1.6; }
+:root {
+  --accent: #e8803a;
+  --bg: #0e0e0e;
+  --bg-3: #1e1e1e;
+  --text: #f0ece3;
+  --text-muted: rgba(240,236,227,0.5);
+  --text-dim: rgba(240,236,227,0.2);
+  --border: rgba(240,236,227,0.1);
+  --serif: 'Playfair Display', Georgia, serif;
+  --pad: clamp(24px, 5vw, 64px);
+}
+.portfolio-page { padding: clamp(48px, 7vw, 88px) var(--pad); max-width: 1200px; margin: 0 auto; }
+.portfolio-title {
+  font-family: var(--serif); font-size: clamp(36px, 6vw, 68px);
+  font-weight: 900; color: var(--text); line-height: 0.95; margin-bottom: 16px;
+}
+.portfolio-subtitle {
+  font-size: 15px; font-weight: 300; color: var(--text-muted);
+  margin-bottom: 32px; max-width: 480px; line-height: 1.75;
+}
+.preview-note {
+  font-size: 13px; color: var(--accent); margin-bottom: 28px;
+  padding: 12px 16px; border: 0.5px solid rgba(232,128,58,0.3); border-radius: 4px;
+  background: rgba(232,128,58,0.06);
+}
+/* CATEGORY NAV */
+.category-nav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+  margin: 0 0 40px; padding-bottom: 8px;
+}
+.cat-btn {
+  width: 32px; height: 32px; border-radius: 6px; border: 2px solid transparent;
+  background: var(--cat-color, #444); cursor: pointer; position: relative;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; flex-shrink: 0;
+}
+.cat-btn:hover, .cat-btn.active {
+  transform: scale(1.15); border-color: rgba(240,236,227,0.55);
+  box-shadow: 0 0 0 3px rgba(240,236,227,0.1);
+}
+.cat-btn[data-cat="all"] {
+  background: #1e1e1e; border: 1.5px solid var(--border);
+}
+.cat-btn[data-cat="all"].active {
+  border-color: var(--accent); background: rgba(232,128,58,0.15);
+}
+.cat-label {
+  font-size: 13px; font-weight: 400; color: var(--text-muted);
+  letter-spacing: 0.04em; margin-left: 4px; min-width: 140px;
+}
+/* GRID */
+.portfolio-all-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+}
+.portfolio-all-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  min-height: 220px; background: var(--bg-3);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.portfolio-all-card.hidden { display: none; }
+.work-card-img {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  transition: transform 0.5s ease;
+}
+.portfolio-all-card:hover .work-card-img { transform: scale(1.05); }
+.work-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(14,14,14,0.92) 0%, rgba(14,14,14,0.3) 60%, transparent 100%);
+}
+.work-card-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 24px; }
+.work-card-cat {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+}
+.work-card-title {
+  font-family: var(--serif); font-size: clamp(16px, 2.2vw, 22px);
+  font-weight: 700; color: var(--text); line-height: 1.15;
+}
+.img-island { background: linear-gradient(135deg, #0d2240 0%, #0a3060 40%, #071e40 100%); }
+.img-mlb { background: linear-gradient(135deg, #1a0505 0%, #3a0a0a 40%, #1f0808 100%); }
+.img-kitchen { background: linear-gradient(135deg, #1a1010 0%, #2d1a10 40%, #1a0e08 100%); }
+.img-widex { background: linear-gradient(135deg, #0a1520 0%, #162035 40%, #0d1a2a 100%); }
+.img-logos { background: linear-gradient(135deg, #141020 0%, #1e1530 40%, #100d1a 100%); }
+@media (max-width: 900px) { .portfolio-all-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .portfolio-all-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="portfolio-page">
+  <h1 class="portfolio-title">All<br><em style="font-style:italic;color:var(--accent)">Work</em></h1>
+  <p class="portfolio-subtitle">Campaign systems, packaging, identity, and print across two decades and 50+ brands.</p>
+
+  <div class="preview-note">
+    <strong>Preview only</strong> — Click the colored squares to filter by media type. Matching cards jump to the front. This is a live demo of the proposed nav bar (images are placeholders).
+  </div>
+
+  <!-- CATEGORY NAV BAR -->
+  <div class="category-nav" id="category-nav">
+    <button class="cat-btn active" data-cat="all" title="All work"></button>
+    <button class="cat-btn" data-cat="direct-mail" style="--cat-color:#5b9bd5" title="Direct Mail"></button>
+    <button class="cat-btn" data-cat="ads" style="--cat-color:#e8803a" title="Ads & Print"></button>
+    <button class="cat-btn" data-cat="packaging" style="--cat-color:#6bbf8a" title="Packaging"></button>
+    <button class="cat-btn" data-cat="social" style="--cat-color:#c084fc" title="Social & Digital"></button>
+    <button class="cat-btn" data-cat="logos" style="--cat-color:#f5c542" title="Logos & Identity"></button>
+    <button class="cat-btn" data-cat="environmental" style="--cat-color:#2dd4bf" title="Environmental / Signage"></button>
+    <button class="cat-btn" data-cat="sports" style="--cat-color:#ef4444" title="Sports"></button>
+    <span class="cat-label" id="cat-label">All work</span>
+  </div>
+
+  <div class="portfolio-all-grid" id="work-grid">
+
+    <div class="portfolio-all-card" data-categories="direct-mail ads environmental logos social">
+      <div class="work-card-img img-island"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Campaigns · Brand</div>
+        <div class="work-card-title">Island Federal CU</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="sports environmental logos packaging ads">
+      <div class="work-card-img img-mlb"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Sports · Identity</div>
+        <div class="work-card-title">Major League Baseball</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="packaging">
+      <div class="work-card-img img-kitchen"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Packaging</div>
+        <div class="work-card-title">KitchenAid & Farberware</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="direct-mail ads social">
+      <div class="work-card-img img-widex"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Campaigns · Healthcare</div>
+        <div class="work-card-title">Widex USA</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="ads">
+      <div class="work-card-img" style="background:linear-gradient(135deg,#1a1030,#0e0a1e);"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Print · Advertising</div>
+        <div class="work-card-title">Newsday</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="direct-mail ads environmental">
+      <div class="work-card-img" style="background:linear-gradient(135deg,#0d2010,#081508);"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Retail · Visual Merch</div>
+        <div class="work-card-title">NBTY · Vitamin World</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="sports environmental">
+      <div class="work-card-img" style="background:linear-gradient(135deg,#20100d,#150a08);"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Sports · Collateral</div>
+        <div class="work-card-title">NY Jets</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="logos">
+      <div class="work-card-img img-logos"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Identity · Logo Design</div>
+        <div class="work-card-title">Brand Identities</div>
+      </div>
+    </div>
+
+    <div class="portfolio-all-card" data-categories="ads">
+      <div class="work-card-img" style="background:linear-gradient(135deg,#0e1520,#080d15);"></div>
+      <div class="work-card-overlay"></div>
+      <div class="work-card-body">
+        <div class="work-card-cat">Publishing · Collateral</div>
+        <div class="work-card-title">HarperCollins</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const nav = document.getElementById('category-nav');
+  const label = document.getElementById('cat-label');
+  const cards = document.querySelectorAll('.portfolio-all-card');
+  const labels = {
+    all: 'All work',
+    'direct-mail': 'Direct Mail',
+    ads: 'Ads & Print',
+    packaging: 'Packaging',
+    social: 'Social & Digital',
+    logos: 'Logos & Identity',
+    environmental: 'Environmental / Signage',
+    sports: 'Sports'
+  };
+
+  nav.addEventListener('click', (e) => {
+    const btn = e.target.closest('.cat-btn');
+    if (!btn) return;
+
+    const cat = btn.dataset.cat;
+    nav.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    label.textContent = labels[cat] || cat;
+
+    const matching = [];
+    const nonMatching = [];
+
+    cards.forEach(card => {
+      const cats = (card.dataset.categories || '').split(/\s+/);
+      if (cat === 'all' || cats.includes(cat)) {
+        card.classList.remove('hidden');
+        matching.push(card);
+      } else {
+        card.classList.add('hidden');
+        nonMatching.push(card);
+      }
+    });
+
+    const grid = document.getElementById('work-grid');
+    [...matching, ...nonMatching].forEach(c => grid.appendChild(c));
+  });
+})();
+</script>
+</body>
+</html>
